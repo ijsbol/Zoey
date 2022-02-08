@@ -54,29 +54,32 @@ with open ('config.json') as f:
     bot.ban_message_raw = config_json['ban_message']
     bot.kick_message_raw = config_json['kick_message']
 
-@bot.command(pass_context=True)
+@bot.command()
 @commands.has_any_role(940357593912705066)
-async def reload(ctx,Module : str):
+async def reload(ctx, module: str):
     try:
-        Debiddo.reload_extension(Module)
-        await ctx.send(f"🔁 Reloaded {Module}")
-    except Exception as Error: await ctx.reply(f"⚠ Could not reload `{Module}`\n```{Error}```")
+        bot.reload_extension(module)
+        await ctx.send(f"`🔁` | Reloaded {module}")
+    except Exception as error: 
+        await ctx.reply(f"`⚠` | Could not reload `{module}`\n```{error}```")
 
-@bot.command(pass_context=True)
+@bot.command()
 @commands.has_any_role(940357593912705066)
-async def unload(ctx,Module : str):
+async def unload(ctx, module: str):
     try:
-        Debiddo.unload_extension(Module)
-        await ctx.send(f"📤 Unloaded {Module}")
-    except Exception as Error: await ctx.reply(f"⚠ Could not unload `{Module}`\n```{Error}```")
+        bot.unload_extension(module)
+        await ctx.send(f"`📤` | Unloaded {module}")
+    except Exception as error: 
+        await ctx.reply(f"`⚠` | Could not unload `{module}`\n```{error}```")
 
-@bot.command(pass_context=True)
+@bot.command()
 @commands.has_any_role(940357593912705066)
-async def load(ctx,Module : str):
+async def load(ctx, module: str):
     try:
-        Debiddo.load_extension(Module)
-        await ctx.send(f"📥 Loaded {Module}")
-    except Exception as Error: await ctx.reply(f"⚠ Could not load `{Module}`\n```{Error}```")
+        bot.load_extension(module)
+        await ctx.send(f"`📥` | Loaded {module}")
+    except Exception as error: 
+        await ctx.reply(f"`⚠` | Could not load `{module}`\n```{error}```")
         
 @bot.event
 async def on_command_error(ctx, error):

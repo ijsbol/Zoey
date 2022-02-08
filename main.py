@@ -58,44 +58,44 @@ with open ('config.json') as f:
 @commands.has_any_role(940357593912705066)
 async def reload(ctx, module: str):
     try:
-        bot.reload_extension(module)
-        await ctx.send(f"`🔁` | Reloaded {module}")
+        bot.reload_extension(f"cogs.{module}")
+        await ctx.send(f"`🔁` | Reloaded **cogs.{module}**")
     except Exception as error: 
-        await ctx.reply(f"`⚠` | Could not reload `{module}`\n```{error}```")
+        await ctx.reply(f"`⚠️` | Could not reload `cogs.{module}`\n```{error}```")
 
 @bot.command()
 @commands.has_any_role(940357593912705066)
 async def unload(ctx, module: str):
     try:
-        bot.unload_extension(module)
-        await ctx.send(f"`📤` | Unloaded {module}")
+        bot.unload_extension(f"cogs.{module}")
+        await ctx.send(f"`📤` | Unloaded **cogs.{module}**")
     except Exception as error: 
-        await ctx.reply(f"`⚠` | Could not unload `{module}`\n```{error}```")
+        await ctx.reply(f"`⚠️` | Could not unload `cogs.{module}`\n```{error}```")
 
 @bot.command()
 @commands.has_any_role(940357593912705066)
 async def load(ctx, module: str):
     try:
-        bot.load_extension(module)
-        await ctx.send(f"`📥` | Loaded {module}")
+        bot.load_extension(f"cogs.{module}")
+        await ctx.send(f"`📥` | Loaded **cogs.{module}**")
     except Exception as error: 
-        await ctx.reply(f"`⚠` | Could not load `{module}`\n```{error}```")
+        await ctx.reply(f"`⚠️` | Could not load `cogs.{module}`\n```{error}```")
         
-@bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        await ctx.message.add_reaction("⏰")
-        return await ctx.reply(f"`⏰` | You're on cooldown. | Try again in **{int(error.retry_after)}s**.", delete_after=error.retry_after if error.retry_after <= 60 else None)
-    elif isinstance(error, commands.MissingPermissions):
-        return await ctx.reply(f"`🧦` | You're lacking the following permission `{list(error.missing_perms)[0]}`.")
-    elif isinstance(error, errors.MissingRequiredArgument):
-        return await ctx.reply("`🚨` | You're missing a required argument!")
-    elif isinstance(error, errors.TooManyArguments):
-        return await ctx.reply("`🚨` | You've given me too many arguments!")
-    elif isinstance(error, errors.BadArgument):
-        return await ctx.reply("`🚨` | I'm not sure what one of your arguments is!")
-    elif not isinstance(error, errors.CommandNotFound):
-        return logging.warning(error)
+# @bot.event
+# async def on_command_error(ctx, error):
+#     if isinstance(error, commands.CommandOnCooldown):
+#         await ctx.message.add_reaction("⏰")
+#         return await ctx.reply(f"`⏰` | You're on cooldown. | Try again in **{int(error.retry_after)}s**.", delete_after=error.retry_after if error.retry_after <= 60 else None)
+#     elif isinstance(error, commands.MissingPermissions):
+#         return await ctx.reply(f"`🧦` | You're lacking the following permission `{list(error.missing_perms)[0]}`.")
+#     elif isinstance(error, commands.MissingRequiredArgument):
+#         return await ctx.reply("`🚨` | You're missing a required argument!")
+#     elif isinstance(error, commands.TooManyArguments):
+#         return await ctx.reply("`🚨` | You've given me too many arguments!")
+#     elif isinstance(error, commands.BadArgument):
+#         return await ctx.reply("`🚨` | I'm not sure what one of your arguments is!")
+#     elif not isinstance(error, commands.CommandNotFound):
+#         return logging.warning(error)
 
 for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):

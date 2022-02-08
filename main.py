@@ -52,6 +52,30 @@ with open ('config.json') as f:
     bot.moderation_log_channel_id = config_json['moderation_log_channel_id']
     bot.message_log_channel_id = config_json['message_log_channel_id']
 
+@bot.command(pass_context=True)
+@commands.has_any_role(940357593912705066)
+async def reload(ctx,Module : str):
+    try:
+        Debiddo.reload_extension(Module)
+        await ctx.send(f"🔁 Reloaded {Module}")
+    except Exception as Error: await ctx.reply(f"⚠ Could not reload `{Module}`\n```{Error}```")
+
+@bot.command(pass_context=True)
+@commands.has_any_role(940357593912705066)
+async def unload(ctx,Module : str):
+    try:
+        Debiddo.unload_extension(Module)
+        await ctx.send(f"📤 Unloaded {Module}")
+    except Exception as Error: await ctx.reply(f"⚠ Could not unload `{Module}`\n```{Error}```")
+
+@bot.command(pass_context=True)
+@commands.has_any_role(940357593912705066)
+async def load(ctx,Module : str):
+    try:
+        Debiddo.load_extension(Module)
+        await ctx.send(f"📥 Loaded {Module}")
+    except Exception as Error: await ctx.reply(f"⚠ Could not load `{Module}`\n```{Error}```")
+        
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):

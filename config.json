@@ -1,5 +1,7 @@
 {
     "blacklisted_words": [],
     "moderation_log_channel_id": 940573397614735381,
-    "message_log_channel_id": 940363037129474089
+    "message_log_channel_id": 940363037129474089,
+    "kick_message": "$user:mention, you have been **kicked** from **$server:name** for `$reason`> \nYou can rejoin using the following invite: https://discord.gg/VYnXHNqB2Y",
+    "ban_message": "$user:mention, you have been **banned** from **$server:name** for `$reason`> \nYou can appeal this decision here: https://discord.gg/add-an-invite-here"
 }

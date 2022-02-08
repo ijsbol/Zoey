@@ -81,21 +81,21 @@ async def load(ctx, module: str):
     except Exception as error: 
         await ctx.reply(f"`⚠️` | Could not load `cogs.{module}`\n```{error}```")
         
-# @bot.event
-# async def on_command_error(ctx, error):
-#     if isinstance(error, commands.CommandOnCooldown):
-#         await ctx.message.add_reaction("⏰")
-#         return await ctx.reply(f"`⏰` | You're on cooldown. | Try again in **{int(error.retry_after)}s**.", delete_after=error.retry_after if error.retry_after <= 60 else None)
-#     elif isinstance(error, commands.MissingPermissions):
-#         return await ctx.reply(f"`🧦` | You're lacking the following permission `{list(error.missing_perms)[0]}`.")
-#     elif isinstance(error, commands.MissingRequiredArgument):
-#         return await ctx.reply("`🚨` | You're missing a required argument!")
-#     elif isinstance(error, commands.TooManyArguments):
-#         return await ctx.reply("`🚨` | You've given me too many arguments!")
-#     elif isinstance(error, commands.BadArgument):
-#         return await ctx.reply("`🚨` | I'm not sure what one of your arguments is!")
-#     elif not isinstance(error, commands.CommandNotFound):
-#         return logging.warning(error)
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.message.add_reaction("⏰")
+        return await ctx.reply(f"`⏰` | You're on cooldown. | Try again in **{int(error.retry_after)}s**.", delete_after=error.retry_after if error.retry_after <= 60 else None)
+    elif isinstance(error, commands.MissingPermissions):
+        return await ctx.reply(f"`🧦` | You're lacking the following permission `{list(error.missing_perms)[0]}`.")
+    elif isinstance(error, commands.MissingRequiredArgument):
+        return await ctx.reply("`🚨` | You're missing a required argument!")
+    elif isinstance(error, commands.TooManyArguments):
+        return await ctx.reply("`🚨` | You've given me too many arguments!")
+    elif isinstance(error, commands.BadArgument):
+        return await ctx.reply("`🚨` | I'm not sure what one of your arguments is!")
+    elif not isinstance(error, commands.CommandNotFound):
+        return logging.warning(error)
 
 for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):

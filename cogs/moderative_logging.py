@@ -66,10 +66,11 @@ class ModerativeLogging(commands.Cog):
     @commands.Cog.listener()
     async def on_message_edit(self, old_message, new_message):
         if not old_message.author.bot and "ml-exempt" not in str(old_message.channel.topic):
-            message_log_channel = self.bot.get_channel(self.message_log_channel_id)
-            if message_log_channel is not None:
-                message_log_embed = self.createMessageEditLogEmbed(old_message, new_message)
-                await message_log_channel.send(embed=message_log_embed)
+            if old_message.content != new_message.content: # Weird nextcord issue causing on_message_edit event to fire when no edits were made :thinking:
+                message_log_channel = self.bot.get_channel(self.message_log_channel_id)
+                if message_log_channel is not None:
+                    message_log_embed = self.createMessageEditLogEmbed(old_message, new_message)
+                    await message_log_channel.send(embed=message_log_embed)
 
 def setup(bot):
     bot.add_cog(ModerativeLogging(bot))

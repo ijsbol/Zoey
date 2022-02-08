@@ -51,20 +51,22 @@ with open ('config.json') as f:
     bot.blacklisted_words = config_json['blacklisted_words']
     bot.moderation_log_channel_id = config_json['moderation_log_channel_id']
     bot.message_log_channel_id = config_json['message_log_channel_id']
+    bot.ban_message_raw = config_json['ban_message']
+    bot.kick_message_raw = config_json['kick_message']
 
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.message.add_reaction("⏰")
-        return await ctx.reply(f"`⏰` You're on cooldown. | Try again in **{int(error.retry_after)}s**.", delete_after=error.retry_after if error.retry_after <= 60 else None)
+        return await ctx.reply(f"`⏰` | You're on cooldown. | Try again in **{int(error.retry_after)}s**.", delete_after=error.retry_after if error.retry_after <= 60 else None)
     elif isinstance(error, commands.MissingPermissions):
-        return await ctx.reply(f"`🧦` You're lacking the following permission `{list(error.missing_perms)[0]}`.")
+        return await ctx.reply(f"`🧦` | You're lacking the following permission `{list(error.missing_perms)[0]}`.")
     elif isinstance(error, errors.MissingRequiredArgument):
-        return await ctx.reply("`🚨` You're missing a required argument!")
+        return await ctx.reply("`🚨` | You're missing a required argument!")
     elif isinstance(error, errors.TooManyArguments):
-        return await ctx.reply("`🚨` You've given me too many arguments!")
+        return await ctx.reply("`🚨` | You've given me too many arguments!")
     elif isinstance(error, errors.BadArgument):
-        return await ctx.reply("`🚨` I'm not sure what one of your arguments is!")
+        return await ctx.reply("`🚨` | I'm not sure what one of your arguments is!")
     elif not isinstance(error, errors.CommandNotFound):
         return logging.warning(error)
 

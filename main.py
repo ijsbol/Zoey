@@ -14,6 +14,7 @@ from nextcord import (
 
 import asyncio
 import logging
+import json
 
 logger = logging.basicConfig(
     format='[%(asctime)s] %(process)d-%(levelname)s : %(message)s', 
@@ -44,6 +45,12 @@ bot = commands.Bot(
     intents=intents,
     heartbeat_timeout=20.0
 )
+
+with open ('config.json') as f: 
+    config_json = json.load(f)
+    bot.blacklisted_words = config_json['blacklisted_words']
+    bot.moderation_log_channel_id = config_json['moderation_log_channel_id']
+    bot.message_log_channel_id = config_json['message_log_channel_id']
 
 @bot.event
 async def on_command_error(ctx, error):

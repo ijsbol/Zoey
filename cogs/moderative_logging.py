@@ -1,7 +1,3 @@
-import os
-from dotenv import load_dotenv
-load_dotenv()
-
 from nextcord.ext import commands
 from nextcord import (
     Embed,
@@ -11,7 +7,6 @@ from nextcord import (
 class ModerativeLogging(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.message_log_channel_id = int(os.getenv('MESSAGE_LOG_CHANNEL_ID'))
 
     def formatList(self, needs_formatting):
         format_list = ['{:>3}' for item in needs_formatting] 
@@ -46,7 +41,7 @@ class ModerativeLogging(commands.Cog):
     @commands.Cog.listener()
     async def on_message_delete(self, message):
         if not message.author.bot and "ml-exempt" not in str(message.channel.topic):
-            message_log_channel = self.bot.get_channel(self.message_log_channel_id)
+            message_log_channel = self.bot.get_channel(self.bot.message_log_channel_id)
             if message_log_channel is not None:
                 message_log_embed = self.createMessageDeleteLogEmbed(message)
                 await message_log_channel.send(embed=message_log_embed)
@@ -57,7 +52,7 @@ class ModerativeLogging(commands.Cog):
         for message in messages:
             if not message.author.bot and "ml-exempt" not in str(message.channel.topic):
                 embeds_list.append(self.createMessageDeleteLogEmbed(message, bulk=True))
-        message_log_channel = self.bot.get_channel(self.message_log_channel_id)
+        message_log_channel = self.bot.get_channel(self.bot.message_log_channel_id)
         if message_log_channel is not None:
             log_segments = [embeds_list[x:x+20] for x in range(0, len(embeds_list), 20)] # Splitting up the embeds_list into multiple seperate lists each being 20 messages long
             for log_segment in log_segments:
@@ -67,7 +62,7 @@ class ModerativeLogging(commands.Cog):
     async def on_message_edit(self, old_message, new_message):
         if not old_message.author.bot and "ml-exempt" not in str(old_message.channel.topic):
             if old_message.content != new_message.content: # Weird nextcord issue causing on_message_edit event to fire when no edits were made :thinking:
-                message_log_channel = self.bot.get_channel(self.message_log_channel_id)
+                message_log_channel = self.bot.get_channel(self.bot.message_log_channel_id)
                 if message_log_channel is not None:
                     message_log_embed = self.createMessageEditLogEmbed(old_message, new_message)
                     await message_log_channel.send(embed=message_log_embed)

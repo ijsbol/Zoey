@@ -36,7 +36,7 @@ bot = commands.Bot(
     activity=Activity(name=f'over the table.', type=3),
     allowed_mentions=AllowedMentions(everyone=False, users=True, roles=False),
     member_cache_flags=MemberCacheFlags(voice=False, joined=False),
-    command_prefix="-", 
+    command_prefix="rtc ", 
     case_insensitive=True,
     chunk_guilds_at_startup=False,
     strip_after_prefix=True,

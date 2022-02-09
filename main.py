@@ -1,7 +1,9 @@
 import os
-from dotenv import load_dotenv
-load_dotenv()
+import asyncio
+import logging
+import json
 
+from dotenv import load_dotenv
 from nextcord.ext.commands import Bot
 from nextcord.ext import commands
 from nextcord import (
@@ -12,9 +14,7 @@ from nextcord import (
     MemberCacheFlags
 )
 
-import asyncio
-import logging
-import json
+load_dotenv()
 
 logger = logging.basicConfig(
     format='[%(asctime)s] %(process)d-%(levelname)s : %(message)s', 
@@ -54,6 +54,15 @@ with open ('config.json') as f:
     bot.ban_message_raw = config_json['ban_message']
     bot.kick_message_raw = config_json['kick_message']
 
+@bot.command()
+async def ping(ctx, ):
+    ping = round(bot.latency / 1000,1)
+    await ctx.reply(f"🐍 Pong! `{ping}ms`",delete_after=12)
+    try:
+        await ctx.delete(delay=12)
+    except:
+        pass
+    
 @bot.command()
 @commands.has_any_role(940357593912705066)
 async def reload(ctx, module: str):

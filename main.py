@@ -1,7 +1,9 @@
 import os
-from dotenv import load_dotenv
-load_dotenv()
+import asyncio
+import logging
+import json
 
+from dotenv import load_dotenv
 from nextcord.ext.commands import Bot
 from nextcord.ext import commands
 from nextcord import (
@@ -12,9 +14,7 @@ from nextcord import (
     MemberCacheFlags
 )
 
-import asyncio
-import logging
-import json
+load_dotenv()
 
 logger = logging.basicConfig(
     format='[%(asctime)s] %(process)d-%(levelname)s : %(message)s', 
@@ -63,6 +63,15 @@ async def reload(ctx, module: str):
     except Exception as error: 
         await ctx.reply(f"`⚠️` | Could not reload `cogs.{module}`\n```{error}```")
 
+@bot.command()
+async def ping(ctx, ):
+    ping = round(bot.latency * 1000,1)
+    return await ctx.reply(f"🐍 Pong! {ping}",delete_after=12)
+    try:
+        await ctx.delete(delay=12)
+    except Forbidden:
+        pass
+        
 @bot.command()
 @commands.has_any_role(940357593912705066)
 async def unload(ctx, module: str):

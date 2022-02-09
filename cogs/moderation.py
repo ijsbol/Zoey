@@ -33,30 +33,30 @@ class Moderation(commands.Cog):
     async def kick(self, ctx, member: Member, *, reason="No reason provided."):
         punishment_dm = self.parsePunishmentMessages(self.bot.kick_message_raw, member, ctx.author, ctx.guild, reason)
         try:
-            await member.send(punishment_dm)
-            extra = "User was notified via DMs"
-        except Forbidden:
-            extra = "I was unable to DM this user"
-        try:
             await member.kick(reason=f"Mod: {ctx.author.id} ({ctx.author}) | Reason: {reason}")
+            try:
+                await member.send(punishment_dm)
+                extra = "User was notified via DMs"
+            except Forbidden:
+                extra = "I was unable to DM this user"
+            await ctx.send(f"`🐛` | **{member}** has been kicked. ({extra})")
         except Forbidden:
             return await ctx.send(f"`📛` | I was unable to kick that user.")
-        await ctx.send(f"`🐛` | **{member}** has been kicked. ({extra})")
 
     @commands.has_permissions(ban_members=True)
     @commands.command(aliases=[])
     async def ban(self, ctx, member: Member, *, reason="No reason provided."):
         punishment_dm = self.parsePunishmentMessages(self.bot.ban_message_raw, member, ctx.author, ctx.guild, reason)
         try:
-            await member.send(punishment_dm)
-            extra = "User was notified via DMs"
-        except Forbidden:
-            extra = "I was unable to DM this user"
-        try:
-            await member.kick(reason=f"Mod: {ctx.author.id} ({ctx.author}) | Reason: {reason}")
+            await member.ban(reason=f"Mod: {ctx.author.id} ({ctx.author}) | Reason: {reason}")
+            try:
+                await member.send(punishment_dm)
+                extra = "User was notified via DMs"
+            except Forbidden:
+                extra = "I was unable to DM this user"
+            await ctx.send(f"`🐛` | **{member}** has been banned. ({extra})")
         except Forbidden:
             return await ctx.send(f"`📛` | I was unable to ban that user.")
-        await ctx.send(f"`🐛` | **{member}** has been banned. ({extra})")
-
+        
 def setup(bot):
     bot.add_cog(Moderation(bot))
